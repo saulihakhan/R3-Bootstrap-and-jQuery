@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Store - Shopping Cart</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    body { background-color: #fff; }
+    .price { color: #28a745; font-weight: bold; }
+    .discount { color: red; font-weight: bold; }
+    .order-step { font-weight: 500; margin-left: 20px; }
+    .order-step.active { color: #28a745; }
+    .cart-card {
+      border: 1px solid #e0e0e0;
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .cart-card img {
+      width: 100%;
+      max-width: 120px;
+      height: auto;
+      object-fit: contain;
+      margin-right: 15px;
+    }
+    .select-product-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-right: 10px;
+    }
+    .card-body {
+      flex: 1 1 0;
+      min-width: 200px;
+    }
+    .remove { color: red; margin-right: 10px; cursor: pointer; }
+    .wishlist { color: #0d6efd; cursor: pointer; }
+    .place-order-btn { background-color: #28a745; font-size: 1.1rem; }
+    .place-order-btn:hover { background-color: #218838; }
+    .bill-summary .list-group-item { border: none; padding: .5rem 0; }
+    .text-green { color: #28a745; }
+    .text-red { color: red; }
+    .summary-title { font-weight: bold; }
+
+    @media (max-width: 768px) {
+      .cart-card {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .cart-card img {
+        margin-bottom: 10px;
+        margin-right: 0;
+      }
+      .d-flex.justify-content-between.align-items-center {
+        flex-direction: column;
+        align-items: flex-start !important;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>My Store</h2>
+    <div>
+      <span class="order-step active">① Cart</span>
+      <span class="order-step">② Delivery</span>
+      <span class="order-step">③ Payment</span>
+    </div>
+  </div>
+  <div class="row g-4">
+    <div class="col-md-8">
+      <h5 class="mb-3">Shopping Cart</h5>
+      <div class="text-end mb-2 text-green">Shipping Free</div>
+
+      <div class="cart-card mb-3" data-price="99.90">
+        <div class="select-product-wrapper">
+          <input type="checkbox" class="form-check-input select-product" checked>
+        </div>
+        <img src="Embroidered Mirror Round Kurta Gharara Set For Women by Neha Khullar Online at Aza Fashions_.jpeg" alt="Embroidered Mirror Round Kurta Gharara Set For Women">
+        <div class="card-body">
+          <h6>Embroidered Mirror Round Kurta Gharara Set For Women</h6>
+          <small class="text-muted">Shipping: 3–4 working days</small><br>
+          <span>Size: M</span><br>
+          <strong>Color:</strong>
+          <select class="form-select form-select-sm w-auto d-inline-block ms-1">
+            <option selected>Pink</option>
+            <option>Red</option>
+            <option>Blue</option>
+          </select>
+          <br>
+          Qty: <input type="number" value="1" min="1" class="form-control d-inline-block w-auto my-2 quantity">
+          <div class="d-flex justify-content-between align-items-center">
+            <div><span class="remove">Remove</span><span class="wishlist">Move to Wishlist</span></div>
+            <div class="price">$99.90</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cart-card mb-3" data-price="870.90">
+        <div class="select-product-wrapper">
+          <input type="checkbox" class="form-check-input select-product" checked>
+        </div>
+        <img src="Embroidered Sharara Suit With Heavy Dupatta Women Ready to Wear Kurta Shalwar Set - Etsy Canada.jpeg" alt="Embroidered Sharara Suit With Heavy Dupatta">
+        <div class="card-body">
+          <h6>Embroidered Sharara Suit With Heavy Dupatta</h6>
+          <small class="text-muted">Shipping: 3–4 working days</small><br>
+          <span>Size: M</span><br>
+          <strong>Color:</strong>
+          <select class="form-select form-select-sm w-auto d-inline-block ms-1">
+            <option selected>Blue</option>
+            <option>Grey</option>
+            <option>Black</option>
+          </select>
+          <br>
+          Qty: <input type="number" value="5" min="1" class="form-control d-inline-block w-auto my-2 quantity">
+          <div class="d-flex justify-content-between align-items-center">
+            <div><span class="remove">Remove</span><span class="wishlist">Move to Wishlist</span></div>
+            <div class="price">$870.90</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card p-3 bill-summary h-100">
+        <h5 class="summary-title">Bill Detail</h5>
+        <div class="form-check my-2">
+          <input class="form-check-input" type="checkbox" id="giftWrap">
+          <label class="form-check-label" for="giftWrap">Gift Wrap for $25</label>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item d-flex justify-content-between">
+            <span>Cart Total</span><span id="cartTotal">$0.00</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between">
+            <span class="text-red">Discount (10%)</span><span class="text-red" id="discount">– $0.00</span>
+          </li>
+          <li class="list-group-item d-flex justify-content-between">
+            <span>Shipping</span><span class="text-green">Free</span>
+          </li>
+        </ul>
+        <input type="text" id="couponCode" class="form-control mt-3" placeholder="Enter Coupon (SAVE10)">
+        <button class="btn btn-outline-primary w-100 mt-2" id="applyCoupon">Apply Coupon</button>
+        <div class="d-flex justify-content-between fw-bold fs-5 mt-3">
+          <span>Total</span><span id="finalTotal">$0.00</span>
+        </div>
+        <button class="btn place-order-btn w-100 mt-3">Place Order</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let couponApplied = false;
+  function updateTotals() {
+    let total = 0;
+    $('.cart-card').each(function () {
+      if ($(this).find('.select-product').is(':checked')) {
+        const price = parseFloat($(this).data('price'));
+        const qty = parseInt($(this).find('.quantity').val());
+        total += price * qty;
+      }
+    });
+    let discount = total * 0.10;
+    if (couponApplied) {
+      discount += 10;
+    }
+    const giftWrap = $('#giftWrap').is(':checked') ? 25 : 0;
+    const final = total - discount + giftWrap;
+    $('#cartTotal').text(`$${total.toFixed(2)}`);
+    $('#discount').text(`– $${discount.toFixed(2)}`);
+    $('#finalTotal').text(`$${final.toFixed(2)}`);
+  }
+
+  $(document).ready(function () {
+    updateTotals();
+    $('.quantity, #giftWrap, .select-product').on('change', updateTotals);
+    $('.remove').on('click', function () {
+      $(this).closest('.cart-card').remove();
+      updateTotals();
+    });
+    $('#applyCoupon').on('click', function () {
+      const code = $('#couponCode').val().trim();
+      if (code === 'SAVE10') {
+        if (!couponApplied) {
+          couponApplied = true;
+          alert('Coupon applied successfully!');
+        } else {
+          alert('Coupon already applied');
+        }
+      } else {
+        alert('Invalid coupon code');
+      }
+      updateTotals();
+    });
+  });
+</script>
+</body>
+</html>
